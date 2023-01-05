@@ -55,6 +55,10 @@ public class UserService {
 		return existingUser;
 	}
 	
+	public User findByUserName(String username) {
+		return userRepo.findByUsername(username);
+	}
+	
 	public User getUser(String email) {
 		Optional<User> potentialUser = userRepo.findByEmail(email);
 		return potentialUser.isPresent() ? potentialUser.get() : null;
