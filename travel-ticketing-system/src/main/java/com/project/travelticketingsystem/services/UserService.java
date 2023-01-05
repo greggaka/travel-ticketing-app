@@ -6,6 +6,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.project.travelticketingsystem.models.LoginUser;
 import com.project.travelticketingsystem.models.User;
 import com.project.travelticketingsystem.repositories.UserRepository;
 
