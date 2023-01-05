@@ -121,6 +121,14 @@ public class User {
 		this.confirm = confirm;
 	}
 
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
