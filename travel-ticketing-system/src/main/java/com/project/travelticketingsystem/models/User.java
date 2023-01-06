@@ -31,22 +31,22 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotEmpty(message="First Name is required")
+	@NotEmpty
 	private String firstName;
 	
-	@NotEmpty(message="Last Name is required")
+	@NotEmpty
 	private String lastName;
 	
-	@NotEmpty(message="Email is required")
-	@Email(message="Invalid Email. Please enter a vlid email")
+	@NotEmpty
+	@Email
 	private String username;
 	
-	@NotEmpty(message="Password is required")
-	@Size(min=8, message="Password must be at least 8 characters")
+	@NotEmpty
+	@Size(min=8)
 	private String password;
 	
 	@Transient
-	@NotEmpty(message="Confirm Password is required")
+	@NotEmpty
 	private String confirm;
 	
 //	@OneToMany(mappedBy="role", fetch = FetchType.LAZY)

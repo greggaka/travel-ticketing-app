@@ -25,43 +25,20 @@ public class UserService {
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 	
-	public User registerUser(User user) {
-		String hashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-		user.setPassword(hashed);
+	public void registerUser(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setRoles(roleRepo.findByName("ROLE_USER"));
-		return userRepo.save(user);
+		userRepo.save(user);
 	}
 	
-	public User registerAdmin(User user) {
-		String hashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-		user.setPassword(hashed);
+	public void registerAdmin(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setRoles(roleRepo.findByName("ROLE_ADMIN"));
-		return userRepo.save(user);
-	}
-	
-	public User login(LoginUser loginUser, BindingResult result) {
-		if (result.hasErrors()) {
-			return null;
-		}
-		User existingUser = getUser(loginUser.getEmail());
-		if (existingUser == null) {
-			result.rejectValue("email", "Unique", "Unknown Email");
-			return null;
-		}
-		if(!BCrypt.checkpw(loginUser.getPassword(), existingUser.getPassword())) {
-			result.rejectValue("password", "Match", "Incorrect Password");
-			return null;
-		}
-		return existingUser;
+		userRepo.save(user);
 	}
 	
 	public User findByUserName(String username) {
 		return userRepo.findByUsername(username);
-	}
-	
-	public User getUser(String email) {
-		Optional<User> potentialUser = userRepo.findByEmail(email);
-		return potentialUser.isPresent() ? potentialUser.get() : null;
 	}
 	
 	public User getUser(Long id) {

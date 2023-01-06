@@ -29,6 +29,13 @@ public class Role {
 	
 	private String name;
 	
+	@Column(updatable = false)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date createdAt;
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date updatedAt;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable (
 		name="users_roles",
@@ -36,12 +43,6 @@ public class Role {
 		inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<User> users;
 	
-	@Column(updatable = false)
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date createdAt;
-	
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date updatedAt;
 	
 	//Constructors
 	public Role() {}
@@ -80,7 +81,6 @@ public class Role {
 		return updatedAt;
 	}
 
-	//Other
 	@PrePersist
     protected void onCreate(){
         this.createdAt = new Date();
