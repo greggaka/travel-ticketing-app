@@ -59,6 +59,13 @@ public class User {
     	inverseJoinColumns = @JoinColumn(name="role_id"))
     private List <Role> roles;
 	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+    	name = "users_flights",
+    	joinColumns = @JoinColumn(name="user_id"),
+    	inverseJoinColumns = @JoinColumn(name="flight_id"))
+    private List <Flight> flights;
+	
 	@Column(updatable = false)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date createdAt;
@@ -127,6 +134,15 @@ public class User {
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	
+	}
+
+	public List<Flight> getFlights() {
+		return flights;
+	}
+
+	public void setFlights(List<Flight> flights) {
+		this.flights = flights;
 	}
 
 	public Date getCreatedAt() {

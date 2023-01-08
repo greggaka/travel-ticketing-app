@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.travelticketingsystem.models.User;
+import com.project.travelticketingsystem.services.FlightService;
 import com.project.travelticketingsystem.services.UserService;
 import com.project.travelticketingsystem.validator.UserValidator;
 
@@ -22,10 +23,12 @@ public class UserController {
 	
 	private final UserService userServ;
 	private final UserValidator userValid;
+	private final FlightService flightServ;
 
-	public UserController(UserService userServ, UserValidator userValid) {
+	public UserController(UserService userServ, UserValidator userValid, FlightService flightServ) {
 		this.userServ = userServ;
 		this.userValid = userValid;
+		this.flightServ = flightServ;
 	}
 	
 	@GetMapping("/registration")
@@ -54,16 +57,17 @@ public class UserController {
 		return "user/admin/login.jsp";
 	}
 	
-	@RequestMapping("/admin")
-	public String adminPage(Principal principal, Model model) {
-		String username = principal.getName();
-		model.addAttribute("currentUser", userServ.findByUserName(username));
-		return "user/admin/home.jsp";
-	}
+//	@RequestMapping("/admin")
+//	public String adminPage(Principal principal, Model model) {
+//		String username = principal.getName();
+//		model.addAttribute("currentUser", userServ.findByUserName(username));
+//		return "user/admin/home.jsp";
+//	}
 	
 	@RequestMapping(value = {"/", "/home"})
 	public String home(Principal principal, Model model) {
 		String username = principal.getName();
+		model.addAttribute("allFlights", flightServ.getAll());
 		model.addAttribute("currentUser", userServ.findByUserName(username));
 		return "user/admin/home.jsp";
 	}

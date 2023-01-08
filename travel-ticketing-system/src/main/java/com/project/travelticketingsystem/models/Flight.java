@@ -1,12 +1,17 @@
 package com.project.travelticketingsystem.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -31,11 +36,11 @@ public class Flight {
 	@NotEmpty(message="Must select destination")
 	private String destination;
 	
-	@NotEmpty(message="Must select a date of departure")
-	@DateTimeFormat(pattern="MM-dd-yyyy")
-	private Date depatureDate;
 	
-	@DateTimeFormat(pattern="MM-dd-yyyy")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date departureDate;
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date arrivalDate;
 	
 	@Min(1)
@@ -43,6 +48,13 @@ public class Flight {
 	private Integer numPassengers;
 
 	private String cabin;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable (
+		name="users_flights",
+		joinColumns = @JoinColumn(name="flight_id"),
+		inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private List<User> users;
 	
 	@Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -83,12 +95,12 @@ public class Flight {
 		this.destination = destination;
 	}
 
-	public Date getDepatureDate() {
-		return depatureDate;
+	public Date getDepartureDate() {
+		return departureDate;
 	}
 
-	public void setDepatureDate(Date depatureDate) {
-		this.depatureDate = depatureDate;
+	public void setDepartureDate(Date departureDate) {
+		this.departureDate = departureDate;
 	}
 
 	public Date getArrivalDate() {
@@ -115,10 +127,18 @@ public class Flight {
 		this.cabin = cabin;
 	}
 
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
-
+	
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
